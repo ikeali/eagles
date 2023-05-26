@@ -271,21 +271,21 @@ def checkout(request):
         item.amount = item.price * item.quantity
         item.save()
 
-        subtotal = 0
-        vat = 0
-        total = 0
+    subtotal = 0
+    vat = 0
+    total = 0
 
-        for item in cart:
-            subtotal += int(item.amount)
-            vat = 0.075 * subtotal
-            total = subtotal + vat
+    for item in cart:
+        subtotal += int(item.amount)
+        vat = 0.075 * subtotal
+        total = subtotal + vat
 
-        context = {
-            'cart': cart,
-            'userprof': userprof,
-            'total': total
-        }    
-        return render(request, 'checkout.html', context)
+    context = {
+        'cart': cart,
+        'userprof': userprof,
+        'total': total
+    }    
+    return render(request, 'checkout.html', context)
 
 @login_required(login_url='signin')               
 def payment(request):
@@ -293,7 +293,7 @@ def payment(request):
         profile = Customer.objects.get(user__username = request.user.username)
         api_key = 'sk_test_51ac47bf81638740927dc7e7bbd0ffea06cc434b' #secret key from paystack
         curl = 'https://api.paystack.co/transaction/initialize'#paystack call url   
-        cburl = 'http://16.171.6.204/thankyou'#thank you page
+        cburl = 'http://13.48.56.168/thankyou'#thank you page
         ref = str(uuid.uuid4())#reference id required by paystack as an additional reference number
         order_no = profile.id
         amount = float(request.POST['total']) * 100 #the total amount that would be charged 
